@@ -29,3 +29,7 @@ Modify the application so that instead it prints
 ~~~~~
 Red vs. Blue
 ~~~~~
+
+# Task 3
+
+Draw a 20 by 20 grid on a 720x720 window.  Each cell in the grid should be 35 pixels high and wide and the grid should be drawn 10 pixels off the top and left borders of the screen.  To do this, you should use the `Graphics` class from the Java libraries.  Be sure to consult the tips video for this task (it is a link in iLearn).  Without it, you will be very confused.
