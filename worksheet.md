@@ -41,3 +41,7 @@ The "grid" has no identity - it is just drawn.  Later on we will need to do lots
 We will also need to give an identity to each "cell" of the grid and make each cell responsible for it's own painting to the screen.
 
 Modify the program to make these things happen.  Make a `Grid` class and a `Cell` class and organise them in a sensible way.  What fields and methods should each class have?
+
+# Task 5
+
+Anything that is a `JFrame` or `JPanel` can find out the position of the mouse using `getMousePosition`.  Modify your program so that mousing over a cell will "highlight" it.  Highlighted cells should be drawn in grey.  You may have to think about how you will get the mouse position from the place you can read it, to the place it is needed (the `paint` method of a `Cell` object).
