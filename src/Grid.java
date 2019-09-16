@@ -8,11 +8,26 @@ class Grid implements Iterable<Cell> {
     //fields
     Cell[][] cells = new Cell[20][20];
 
+    private static Random rand = new Random();
+
     // constructor
     public Grid(){
         for(int i = 0; i < cells.length; i++){
             for(int j = 0; j < cells[i].length; j++){
-                cells[i][j] = new Cell(colToLabel(i), j, 10+35*i,10+35*j);
+                switch (rand.nextInt(6)){
+                    case 0:
+                        cells[i][j] = new Road(colToLabel(i), j, 10+35*i,10+35*j);
+                        break;
+                    case 1:
+                        cells[i][j] = new Water(colToLabel(i), j, 10+35*i,10+35*j);
+                        break;
+                    case 2:
+                        cells[i][j] = new Mountain(colToLabel(i), j, 10+35*i,10+35*j);
+                        break;
+                    default:
+                        cells[i][j] = new Grass(colToLabel(i), j, 10+35*i,10+35*j);
+                        break;
+                }
             }
         }
     }
@@ -37,6 +52,22 @@ class Grid implements Iterable<Cell> {
         } else {
             return Optional.empty();
         }
+    }
+
+    public List<Cell> cellsInRange(char c1, int r1, char c2, int r2){
+        int c1i = labelToCol(c1);
+        int c2i = labelToCol(c2);
+        java.util.List<Cell> output = new ArrayList<Cell>();
+        for(int i = c1i; i <= c2i; i++){
+            for(int j = r1; j<= r2; j++){
+                cellAtColRow(colToLabel(i),j).ifPresent(output::add);
+            }
+        }
+        return output;
+    }
+
+    public void replaceCell(Cell old, Cell knew){
+        cells[labelToCol(old.col)][old.row] = knew;
     }
 
     public Optional<Cell> cellAtPoint(Point p){

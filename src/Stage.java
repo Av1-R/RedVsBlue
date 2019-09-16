@@ -45,27 +45,33 @@ public class Stage {
         for(Actor a: actors){
             a.paint(g);   
         }
+        
         // state display
         g.setColor(Color.DARK_GRAY);
         g.drawString(currentState.toString(),720,20);
 
+        // display cell
         Optional<Cell> cap = grid.cellAtPoint(mouseLoc);
         if (cap.isPresent()){
             Cell capc = cap.get();
             g.setColor(Color.DARK_GRAY);
             g.drawString(String.valueOf(capc.col) + String.valueOf(capc.row), 720, 50);
+            g.drawString(capc.description, 820, 50);
+            g.drawString("movement cost", 720, 65);
+            g.drawString(String.valueOf(capc.movementCost()), 820, 65);
         } 
+
         // agent display
         int yloc = 138;
         for(int i = 0; i < actors.size(); i++){
             Actor a = actors.get(i);
             g.drawString(a.getClass().toString(),720, yloc + 70*i);
             g.drawString("location:", 730, yloc + 13 + 70 * i);
-            g.drawString(Character.toString(a.loc.col) + Integer.toString(a.loc.row), 840, yloc + 13 + 70 * i);
+            g.drawString(Character.toString(a.loc.col) + Integer.toString(a.loc.row), 820, yloc + 13 + 70 * i);
             g.drawString("redness:", 730, yloc + 26 + 70*i);
-            g.drawString(Float.toString(a.redness), 840, yloc + 26 + 70*i);
+            g.drawString(Float.toString(a.redness), 820, yloc + 26 + 70*i);
             g.drawString("strat:", 730, yloc + 39 + 70*i);
-            g.drawString(a.strat.toString(), 840, yloc + 39 + 70*i);
+            g.drawString(a.strat.toString(), 820, yloc + 39 + 70*i);
         }
     }
 
