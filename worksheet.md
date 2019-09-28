@@ -265,7 +265,7 @@ public class AnimationBeat {
     // returns which phase the animation is currently in
     public char inPhase(){
         long currTime = System.currentTimeMillis();
-        long rem = (currTime - started) % (a + b);
+        long rem = (currTime - started) % (a + b + c);
         if (rem > a + b){
             return 'c';
         } else if (rem > a) {
