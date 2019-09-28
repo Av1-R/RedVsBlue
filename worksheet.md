@@ -271,7 +271,7 @@ public class AnimationBeat {
         } else if (rem > a) {
             return 'b';
         } else {
-            return 'c';
+            return 'a';
         }
     }
 
