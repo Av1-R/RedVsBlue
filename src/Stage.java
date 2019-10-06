@@ -10,7 +10,7 @@ public class Stage {
     List<MenuItem> menuOverlay;
     Optional<Actor> actorInAction;
 
-    enum State {ChoosingActor, SelectingNewLocation, CPUMoving, SelectingMenuItem, SelectingTarget}
+    //enum State {ChoosingActor, SelectingNewLocation, CPUMoving, SelectingMenuItem, SelectingTarget}
     State currentState = State.ChoosingActor;
 
 
@@ -21,6 +21,13 @@ public class Stage {
         cellOverlay = new ArrayList<Cell>();
         menuOverlay = new ArrayList<MenuItem>();
         currentState = State.ChoosingActor;
+    }
+
+    /**
+     * @param currentState the currentState to set
+     */
+    public void setCurrentState(State currentState) {
+        this.currentState = currentState;
     }
 
     public void paint(Graphics g, Point mouseLoc){
@@ -94,7 +101,7 @@ public class Stage {
 
     public void mouseClicked(int x, int y){
         switch (currentState) {
-            case ChoosingActor:
+            case State.ChoosingActor.integer:
                 actorInAction = Optional.empty();
                 for (Actor a : actors) {
                     if (a.loc.contains(x, y) && a.isTeamRed() && a.turns > 0) {
@@ -110,7 +117,7 @@ public class Stage {
                     menuOverlay.add(new MenuItem("End Game", x, y+MenuItem.height*2, () -> System.exit(0)));
                 }
                 break;
-            case SelectingNewLocation:
+            case State.SelectingNewLocation:
                 Optional<Cell> clicked = Optional.empty();
                 for (Cell c : cellOverlay) {
                     if (c.contains(x, y)) {
@@ -129,7 +136,7 @@ public class Stage {
                     currentState = State.SelectingMenuItem;
                 } 
                 break;
-            case SelectingMenuItem:
+            case State.SelectingMenuItem:
                 for(MenuItem mi : menuOverlay){
                     if (mi.contains(x,y)){
                         mi.action.run();
@@ -137,7 +144,7 @@ public class Stage {
                     }
                 }
                 break;
-            case SelectingTarget:
+            case State.SelectingTarget:
                 for(Cell c: cellOverlay){
                     if (c.contains(x, y)){
                         Optional<Actor> oa = actorAt(c);
