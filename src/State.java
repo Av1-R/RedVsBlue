@@ -1,8 +1,9 @@
 public interface State{
-    final static int ChoosingActor = 0;
-    final static int SelectingNewLocation = 1;
-    final static int SelectingMenuItem = 2;
-    final static int SelectingTarget = 3;
+    final static State ChoosingActor = new ChoosingActor();
+    final static State SelectingNewLocation = new SelectingNewLocation();
+    final static State SelectingMenuItem = new SelectingMenuItem();
+    final static State SelectingTarget = new SelectingTarget();
+    final static State CPUMoving = new CPUMoving();
     
     public void handle(Stage stage);
  
