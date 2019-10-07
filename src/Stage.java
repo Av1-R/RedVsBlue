@@ -11,7 +11,14 @@ public class Stage {
     Optional<Actor> actorInAction;
 
     //enum State {ChoosingActor, SelectingNewLocation, CPUMoving, SelectingMenuItem, SelectingTarget}
-    State currentState = State.ChoosingActor;
+    State choosingActor = new ChoosingActor(this);
+    State selectingNewLocation = new SelectingNewLocation(this);
+    State CPUMoving = new CPUMoving(this);
+    State selectingMenuItem = new SelectingMenuItem(this);
+    State selectingTarget = new SelectingTarget(this);
+
+    State currentState;
+
 
 
     
@@ -20,20 +27,17 @@ public class Stage {
         actors = new ArrayList<Actor>();
         cellOverlay = new ArrayList<Cell>();
         menuOverlay = new ArrayList<MenuItem>();
-        currentState = State.ChoosingActor;
+        currentState = choosingActor;
     }
 
-    /**
-     * @param currentState the currentState to set
-     */
-    public void setCurrentState(State currentState) {
-        this.currentState = currentState;
+    public void setState(State state){
+        currentState = state;
     }
 
     public void paint(Graphics g, Point mouseLoc){
 
         // do we have AI moves to make
-        if (currentState == State.CPUMoving){
+        if (currentState == CPUMoving){
             for(Actor a: actors){
                 if (!a.isTeamRed()){
                     List<Cell> possibleLocs = getClearRadius(a.loc, a.moves, true);
@@ -43,7 +47,7 @@ public class Stage {
                     a.setLocation(nextLoc);
                 }
             }
-            currentState = State.ChoosingActor;
+            setState(choosingActor);
             for(Actor a: actors){
                 a.turns = 1;
             }
@@ -100,67 +104,7 @@ public class Stage {
     }
 
     public void mouseClicked(int x, int y){
-        switch (currentState) {
-            case State.ChoosingActor.integer:
-                actorInAction = Optional.empty();
-                for (Actor a : actors) {
-                    if (a.loc.contains(x, y) && a.isTeamRed() && a.turns > 0) {
-                        cellOverlay = grid.getRadius(a.loc, a.moves, true);
-                        actorInAction = Optional.of(a);
-                        currentState = State.SelectingNewLocation;
-                    }
-                }
-                if(!actorInAction.isPresent()){
-                    currentState = State.SelectingMenuItem;
-                    menuOverlay.add(new MenuItem("Oops", x, y, () -> currentState = State.ChoosingActor));
-                    menuOverlay.add(new MenuItem("End Turn", x, y+MenuItem.height, () -> currentState = State.CPUMoving));
-                    menuOverlay.add(new MenuItem("End Game", x, y+MenuItem.height*2, () -> System.exit(0)));
-                }
-                break;
-            case State.SelectingNewLocation:
-                Optional<Cell> clicked = Optional.empty();
-                for (Cell c : cellOverlay) {
-                    if (c.contains(x, y)) {
-                        clicked = Optional.of(c);
-                    }
-                }
-                if (clicked.isPresent() && actorInAction.isPresent()) {
-                    cellOverlay = new ArrayList<Cell>();
-                    actorInAction.get().setLocation(clicked.get());
-                    actorInAction.get().turns--;
-                    menuOverlay.add(new MenuItem("Fire", x, y, () -> {
-                        cellOverlay = grid.getRadius(actorInAction.get().loc, actorInAction.get().range, false);
-                        cellOverlay.remove(actorInAction.get().loc);
-                            currentState = State.SelectingTarget;
-                    }));
-                    currentState = State.SelectingMenuItem;
-                } 
-                break;
-            case State.SelectingMenuItem:
-                for(MenuItem mi : menuOverlay){
-                    if (mi.contains(x,y)){
-                        mi.action.run();
-                        menuOverlay = new ArrayList<MenuItem>();
-                    }
-                }
-                break;
-            case State.SelectingTarget:
-                for(Cell c: cellOverlay){
-                    if (c.contains(x, y)){
-                        Optional<Actor> oa = actorAt(c);
-                        if (oa.isPresent()){
-                            oa.get().makeRedder(0.1f);
-                        }
-                    }
-                }
-                cellOverlay = new ArrayList<Cell>();
-                currentState = State.ChoosingActor;
-                break;
-            default:
-                System.out.println(currentState);
-                break;
-        }
-
+        currentState.handle(x, y);
     }
 
     public Optional<Actor> actorAt(Cell c){

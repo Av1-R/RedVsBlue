@@ -1,10 +1,28 @@
+import java.util.ArrayList;
+
 public class SelectingMenuItem implements State{
-    State currentState = SelectingMenuItem;
+    String stateName = "SelectingTarget";
     Stage stage;
 
-    @Override
-    public void handle(Stage stage) {
-        // TODO Auto-generated method stub
-
+    public SelectingMenuItem(Stage stage){
+        this.stage = stage;
     }
+
+    @Override
+    public String getStateName() {
+        return stateName;
+    }
+
+    @Override
+    public void handle(int x, int y) {
+        for(MenuItem mi : stage.menuOverlay){
+            if (mi.contains(x,y)){
+                mi.action.run();
+                stage.menuOverlay = new ArrayList<MenuItem>();
+            }
+        }
+    
+    }
+
+
 }

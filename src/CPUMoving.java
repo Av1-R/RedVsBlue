@@ -1,10 +1,20 @@
 public class CPUMoving implements State{
-    State currentState = SelectingNewLocation;
+    String stateName = "SelectingTarget";
     Stage stage;
 
-    @Override
-    public void handle(Stage stage) {
-        // TODO Auto-generated method stub
-
+    public CPUMoving(Stage stage){
+        this.stage = stage;
     }
+
+    @Override
+    public String getStateName() {
+        return stateName;
+    }
+
+    @Override
+    public void handle(int x, int y) {
+    
+    }
+
+
 }
