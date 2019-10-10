@@ -35,23 +35,7 @@ public class Stage {
     }
 
     public void paint(Graphics g, Point mouseLoc){
-
-        // do we have AI moves to make
-        if (currentState == CPUMoving){
-            for(Actor a: actors){
-                if (!a.isTeamRed()){
-                    List<Cell> possibleLocs = getClearRadius(a.loc, a.moves, true);
-
-                    Cell nextLoc = a.strat.chooseNextLoc(possibleLocs);
-
-                    a.setLocation(nextLoc);
-                }
-            }
-            setState(choosingActor);
-            for(Actor a: actors){
-                a.turns = 1;
-            }
-        }
+        currentState.handleCpu();
         grid.paint(g,mouseLoc);
         grid.paintOverlay(g, cellOverlay, new Color(0f, 0f, 1f, 0.5f));
 
@@ -61,7 +45,9 @@ public class Stage {
         
         // state display
         g.setColor(Color.DARK_GRAY);
-        g.drawString(currentState.toString(),720,20);
+       
+        //changed it to use getter method from state obj, can make further aesthetic improvements
+        g.drawString(currentState.getStateName(),720,20);
 
         // display cell
         Optional<Cell> cap = grid.cellAtPoint(mouseLoc);

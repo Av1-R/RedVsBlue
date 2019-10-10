@@ -15,6 +15,7 @@ public class MenuItem extends Rectangle {
         this.display = display;
         this.action = action;
     }
+    
     public void paint(Graphics g){
         g.setColor(new Color(1.0f, 1.0f, 1.0f, 1.0f));
         g.fillRect(x,y,width, height);

@@ -29,8 +29,12 @@ public class ChoosingActor implements State {
             stage.menuOverlay.add(new MenuItem("End Turn", x, y+MenuItem.height, () -> stage.setState(stage.CPUMoving)));
             stage.menuOverlay.add(new MenuItem("End Game", x, y+MenuItem.height*2, () -> System.exit(0)));
         }
-    
     }
+    
+    @Override
+    public void handleCpu() {
+        // Do nothing if currentState of CPU is not CPUMoving
+        return;
 
-
+    }
 }
