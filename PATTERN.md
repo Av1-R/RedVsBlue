@@ -1,18 +1,15 @@
-# Chosen Pattern:
-STATE PATTERN
-Intent/Definition: Encapsulate interchangeable behaviors and use delegation to decide which behavior to use.
-
+# Chosen Pattern: STATE PATTERN
+The State Pattern allows an object to alter its behavior when its internal state changes. The object will appear to change its class.
 
 # Justification of Choice:
-I chose to implement the state pattern. This is due to the fact that the original assignment code was structured such that the behaviour of each state was handled by the logic in the stage.java class. This meant that the stage class was performing the state behaviour that could be more appropriately encapsulated using the design of the state pattern. Furthermore, the original structure also implemented a composite pattern in the sense that there was a State enum variable (this meant that stage "has a" state). The implication of this is that the original code reflects the composite nature of state pattern thus making it a good match for refactoring the code in question.  
-
+This design pattern was implemented as there is code in Stage.java which changes the behaviour of the class based on an internal state, this aligns perfectly with the intent of the state pattern. Specifically the code that handles the state of the game via an enum variable and logic found in methods mouseClicked/paint of the stage class was refactored.
 
 # Improvements as a result of refactorization:
-Closed each state for modification, and yet left the stage class open to extension of behaviour by adding new state variables.
-Localized the behavior of each state into its own class. By encapsulating each state into a class, we localize any changes that will need to be made.
-
+-Localized the behavior of each state into its own class. By encapsulating each state into a class, we localize any changes that will need to be made.
+-Closed each state for modification, and yet left the stage class open to extension of behaviour by adding new state variables.
+-Broke large conditional branch in mouseClicked() that was hard to read into appropriately encapsulated classes. This will mean that managing and maintaining the code is simplified.
 
 # How the refactorization conforms with State Pattern Design principles
 State transitions can be controlled by the State classes or by the Context classes.
-The currentState object appears to change its class through changing behaviour.
+The stage class appears to change its class through an internal state/behaviour.
 Using the State Pattern will typically result in a greater number of classes in your design, this is evident after the refactorization as each value in the State enum had to be made into a class.

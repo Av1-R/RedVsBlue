@@ -35,7 +35,10 @@ public class Stage {
     }
 
     public void paint(Graphics g, Point mouseLoc){
+        
+        //Call handleCpu method, which runs behaviour of CPUMoving state (all handleCpu() methods are empty for all states classes besides that of CPUMoving).
         currentState.handleCpu();
+
         grid.paint(g,mouseLoc);
         grid.paintOverlay(g, cellOverlay, new Color(0f, 0f, 1f, 0.5f));
 
@@ -45,8 +48,6 @@ public class Stage {
         
         // state display
         g.setColor(Color.DARK_GRAY);
-       
-        //changed it to use getter method from state obj, can make further aesthetic improvements
         g.drawString(currentState.getStateName(),720,20);
 
         // display cell

@@ -19,7 +19,6 @@ public class CPUMoving implements State{
     }
 
     public void handleCpu(){
-                //handled by Stage.paint() 
                 for(Actor a: stage.actors){
                     if (!a.isTeamRed()){
                         List<Cell> possibleLocs = stage.getClearRadius(a.loc, a.moves, true);
@@ -33,8 +32,5 @@ public class CPUMoving implements State{
                 for(Actor a: stage.actors){
                     a.turns = 1;
                 }
-        
     }
-
-
 }

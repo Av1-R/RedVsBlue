@@ -38,9 +38,7 @@ public class SelectingNewLocation implements State {
 
     @Override
     public void handleCpu() {
-        // Do nothing if currentState of CPU is not CPUMoving
-        return;
-
+        //Do nothing if currentState of CPU is not CPUMoving
     }
 
 
